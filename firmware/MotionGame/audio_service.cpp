@@ -33,12 +33,12 @@ void Audio_Play(BuzzerSound sound)
         Buzzer_Play(&buzzer_table[sound]);
 }
 
-bool Audio_isPlaying(BuzzerSound sound)
+bool Audio_isPlaying(void)
 {
     return Buzzer_isPlaying();
 }
 
-bool Audio_Stop(BuzzerSound sound)
+void Audio_Stop(void)
 {
     Buzzer_Stop();
 }

@@ -66,8 +66,8 @@ void MPU6050_Update(void)
     int16_t ax_raw = read16(REG_ACCEL_XOUT_H + 2);
     int16_t az_raw = read16(REG_ACCEL_XOUT_H + 4);
 
-    int16_t gx_raw = read16(REG_GYRO_XOUT_H);
-    int16_t gy_raw = read16(REG_GYRO_XOUT_H + 2);
+    int16_t gy_raw = read16(REG_GYRO_XOUT_H);
+    int16_t gx_raw = read16(REG_GYRO_XOUT_H + 2);
     int16_t gz_raw = read16(REG_GYRO_XOUT_H + 4);
 
     /* ---- 单位转换 ---- */
@@ -93,8 +93,8 @@ void MPU6050_Update(void)
     float pitch_acc = atan2(-acc_f[0],
                         sqrt(acc_f[1]*acc_f[1] + acc_f[2]*acc_f[2])) * RAD_TO_DEG;
 
-    roll_f  = 0.98f * (roll_f  + gyro_f[0] * dt) + 0.02f * roll_acc;
-    pitch_f = 0.98f * (pitch_f + gyro_f[1] * dt) + 0.02f * pitch_acc;
+    roll_f  = 0.92f * (roll_f  + gyro_f[0] * dt) + 0.08f * roll_acc;
+    pitch_f = 0.92f * (pitch_f + gyro_f[1] * dt) + 0.08f * pitch_acc;
 }
 
 /* ================== 对外接口 ================== */
