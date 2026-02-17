@@ -13,13 +13,14 @@ typedef enum {
     SYS_ABOUT              // 关于页面
 } SystemState_t;
 
-// 游戏ID枚举
+// 游戏 ID 枚举
 typedef enum {
     GAME_NONE = 0,
     GAME_SNAKE,     // 贪吃蛇
     GAME_TETRIS,    // 俄罗斯方块  
     GAME_PUZZLE,    // 拼图游戏
     GAME_FLAPPY,    // 像素鸟
+    GAME_BALANCE,   // 平衡球
     GAME_COUNT      // 游戏总数
 } GameID_t;
 

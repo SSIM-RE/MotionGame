@@ -5,6 +5,7 @@
 #include "game_app.h"
 #include "theme_app.h"
 #include "common_colors.h"
+#include "cloud_api.h"
 #include <Arduino.h>
 
 // 颜色映射函数
@@ -39,6 +40,9 @@ static SystemState_t previous_state = SYS_MENU;
 static GameID_t selected_game = GAME_NONE;
 
 void System_Init(void) {
+    // 初始化云端模块（预留联网接口）
+    Cloud_Init();
+    
     const ThemeColors_t* theme_colors = Theme_GetCurrentColors();
     AppColors_t app_colors = MapThemeToAppColors(theme_colors);
     

@@ -1,7 +1,9 @@
 // game_app.cpp
 #include "game_app.h"
+#include "game_balance.h"
 #include "display_driver.h"
 #include "motion_service.h"
+#include "cloud_api.h"
 #include <Arduino.h>
 
 // 当前运行的游戏ID
@@ -210,6 +212,9 @@ void GameApp_Init(GameID_t game_id) {
         case GAME_TETRIS:
             Tetris_Init();
             break;
+        case GAME_BALANCE:
+            GameBalance_Init();
+            break;
         default:
             break;
     }
@@ -272,6 +277,11 @@ SystemState_t GameApp_Update(void) {
     //     default:
     //         break;
     // }
+    
+    // 平衡球游戏有独立的 Update 和 Draw
+    if (current_game == GAME_BALANCE) {
+        return GameBalance_Update();
+    }
     
     if (!game_is_paused) {
         switch (current_game) {

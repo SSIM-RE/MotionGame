@@ -20,6 +20,7 @@ static const GameItem_t games[] = {
     { ICON_THEME_64,   "TETRIS",  "Block Puzzle Game",    GAME_TETRIS  },
     { ICON_SETTINGS_64,"PUZZLE",  "Image Puzzle Game",    GAME_PUZZLE  },
     { ICON_ABOUT_64,   "FLAPPY",  "Tap to Fly Game",      GAME_FLAPPY  },
+    { ICON_GAME_64,    "BALANCE", "Tilt Ball Game",       GAME_BALANCE },
 };
 
 #define GAME_COUNT (sizeof(games)/sizeof(games[0]))
