@@ -60,20 +60,29 @@ void Display_ClearBuffer(uint16_t color);
 
 // -------------------- 基本绘图函数 --------------------
 void Display_DrawPixel(int x, int y, uint16_t color);
+uint16_t Display_GetPixel(int x, int y);
 void Display_DrawLine(int x0, int y0, int x1, int y1, uint16_t color);
+void Display_DrawLineDashed(int x0, int y0, int x1, int y1, uint16_t color, uint8_t pattern);
 void Display_DrawRect(int x, int y, int w, int h, uint16_t color);
 void Display_FillRect(int x, int y, int w, int h, uint16_t color);
+void Display_DrawRoundRect(int x, int y, int w, int h, int radius, uint16_t color);
+void Display_FillRoundRect(int x, int y, int w, int h, int radius, uint16_t color);
 void Display_DrawCircle(int x, int y, int radius, uint16_t color);
 void Display_FillCircle(int x, int y, int radius, uint16_t color);
+void Display_DrawCircleQuarter(int x, int y, int radius, uint8_t quarters, uint16_t color);
+void Display_FillCircleQuarter(int x, int y, int radius, uint8_t quarters, uint16_t color);
 void Display_DrawTriangle(int x0, int y0, int x1, int y1, int x2, int y2, uint16_t color);
 void Display_FillTriangle(int x0, int y0, int x1, int y1, int x2, int y2, uint16_t color);
+
+// -------------------- 高级绘图函数 --------------------
+void Display_DrawPixelAlpha(int x, int y, uint16_t color, float alpha);
 
 // -------------------- 位图绘制 --------------------
 void Display_DrawBitmap1B(int x, int y, int w, int h, const uint8_t* bitmap,
                          uint16_t fg_color, uint16_t bg_color);
 void Display_DrawBitmapRGB(int x, int y, int w, int h, const uint16_t* bitmap);
 
-// -------------------- 文本绘制（完全双缓冲） --------------------
+// -------------------- 文本绘制 --------------------
 // 设置文本参数
 void Display_SetTextParams(const TextParams_t* params);
 TextParams_t Display_GetTextParams(void);
@@ -86,7 +95,7 @@ void Display_DrawChar(int x, int y, char ch, const TextParams_t* params);
 void Display_DrawString(int x, int y, const char* str, const TextParams_t* params);
 void Display_DrawStringF(int x, int y, const TextParams_t* params, const char* format, ...);
 
-// 快捷文本绘制（使用当前参数）
+// 快捷文本绘制
 void Display_DrawText(int x, int y, const char* str);
 void Display_DrawTextF(int x, int y, const char* format, ...);
 
@@ -94,6 +103,14 @@ void Display_DrawTextF(int x, int y, const char* format, ...);
 void Display_DrawTextCentered(int center_x, int center_y, const char* str, const TextParams_t* params);
 void Display_DrawTextCenteredSimple(int center_x, int center_y, const char* str);
 void Display_DrawTextInRect(int x, int y, int w, int h, const char* str, const TextParams_t* params);
+
+// 高级文本效果
+void Display_DrawTextWithShadow(int x, int y, const char* str, 
+                               uint16_t text_color, uint16_t shadow_color,
+                               const TextParams_t* base_params);
+void Display_DrawTextGradient(int x, int y, const char* str,
+                             uint16_t start_color, uint16_t end_color,
+                             const TextParams_t* base_params);
 
 // 数字绘制
 void Display_DrawInt(int x, int y, int value, const TextParams_t* params);
@@ -105,5 +122,9 @@ int Display_GetStringHeight(const char* str, DisplayFont_t font, uint8_t size);
 void Display_GetStringBounds(const char* str, DisplayFont_t font, uint8_t size, 
                             int* width, int* height);
 int Display_GetCharWidth(char ch, DisplayFont_t font, uint8_t size);
-void Display_TestFontFormat();
+
+// 调试函数
+// void Display_TestFontFormat(void);
+// void Display_DebugFont(DisplayFont_t font, char ch);
+
 #endif // DISPLAY_DRIVER_H

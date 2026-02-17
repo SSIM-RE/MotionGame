@@ -1,3 +1,4 @@
+// display_driver.cpp - 增强版显示驱动
 #include "display_driver.h"
 #include <TFT_eSPI.h>
 #include <stdarg.h>
@@ -6,6 +7,7 @@
 #include <math.h>
 #include "font_data.h"
 #include <Arduino.h>
+
 // 添加swap函数
 template <typename T>
 static void swap(T& a, T& b) {
@@ -49,6 +51,26 @@ static void clipRect(int* x, int* y, int* w, int* h) {
     if (*y + *h > 160) *h = 160 - *y;
 }
 
+// 颜色混合函数
+static uint16_t blendColors(uint16_t color1, uint16_t color2, float alpha) {
+    if (alpha <= 0.0f) return color1;
+    if (alpha >= 1.0f) return color2;
+    
+    uint8_t r1 = (color1 >> 11) & 0x1F;
+    uint8_t g1 = (color1 >> 5) & 0x3F;
+    uint8_t b1 = color1 & 0x1F;
+    
+    uint8_t r2 = (color2 >> 11) & 0x1F;
+    uint8_t g2 = (color2 >> 5) & 0x3F;
+    uint8_t b2 = color2 & 0x1F;
+    
+    uint8_t r = (uint8_t)(r1 + (r2 - r1) * alpha);
+    uint8_t g = (uint8_t)(g1 + (g2 - g1) * alpha);
+    uint8_t b = (uint8_t)(b1 + (b2 - b1) * alpha);
+    
+    return (r << 11) | (g << 5) | b;
+}
+
 // ==================== 初始化函数 ====================
 
 void Display_Init(void) {
@@ -60,12 +82,15 @@ void Display_Init(void) {
     // 初始化双缓冲
     Display_ClearBuffer(TFT_BLACK);
     Display_EndFrame();  // 立即显示
+    
+    Serial.println("Display initialized (128x160, Double Buffer)");
 }
 
 // ==================== 双缓冲控制函数 ====================
 
 void Display_SetDoubleBufferEnabled(bool enabled) {
     double_buffer_enabled = enabled;
+    Serial.printf("Double buffer %s\n", enabled ? "enabled" : "disabled");
 }
 
 bool Display_GetDoubleBufferEnabled(void) {
@@ -73,8 +98,7 @@ bool Display_GetDoubleBufferEnabled(void) {
 }
 
 void Display_StartFrame(void) {
-    // 开始新的一帧，清空缓冲区（可选）
-    // Display_ClearBuffer(TFT_BLACK);
+    // 开始新的一帧
 }
 
 void Display_EndFrame(void) {
@@ -105,6 +129,148 @@ void Display_ClearBuffer(uint16_t color) {
     }
 }
 
+// ==================== 高级绘图函数 ====================
+
+void Display_DrawPixelAlpha(int x, int y, uint16_t color, float alpha) {
+    if (!checkBounds(x, y)) return;
+    
+    if (alpha >= 1.0f) {
+        Display_DrawPixel(x, y, color);
+    } else if (alpha > 0.0f) {
+        if (double_buffer_enabled) {
+            uint16_t bg_color = frame_buffer[y * 128 + x];
+            uint16_t blended = blendColors(bg_color, color, alpha);
+            frame_buffer[y * 128 + x] = blended;
+        } else {
+            // 直接模式下无法混合
+            Display_DrawPixel(x, y, color);
+        }
+    }
+}
+
+void Display_DrawLineDashed(int x0, int y0, int x1, int y1, uint16_t color, uint8_t pattern) {
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    int sx = (x0 < x1) ? 1 : -1;
+    int sy = (y0 < y1) ? 1 : -1;
+    int err = dx - dy;
+    int step = 0;
+    
+    while (true) {
+        if ((pattern >> (step % 8)) & 0x01) {
+            Display_DrawPixel(x0, y0, color);
+        }
+        step++;
+        
+        if (x0 == x1 && y0 == y1) break;
+        
+        int e2 = 2 * err;
+        if (e2 > -dy) {
+            err -= dy;
+            x0 += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y0 += sy;
+        }
+    }
+}
+
+void Display_DrawRoundRect(int x, int y, int w, int h, int radius, uint16_t color) {
+    if (radius < 0) radius = 0;
+    if (radius > w/2) radius = w/2;
+    if (radius > h/2) radius = h/2;
+    
+    // 绘制四角圆弧
+    Display_DrawCircleQuarter(x + radius, y + radius, radius, 0b1000, color); // 左上
+    Display_DrawCircleQuarter(x + w - radius, y + radius, radius, 0b0100, color); // 右上
+    Display_DrawCircleQuarter(x + w - radius, y + h - radius, radius, 0b0010, color); // 右下
+    Display_DrawCircleQuarter(x + radius, y + h - radius, radius, 0b0001, color); // 左下
+    
+    // 绘制直线部分
+    Display_DrawLine(x + radius, y, x + w - radius, y, color); // 上边
+    Display_DrawLine(x + radius, y + h - 1, x + w - radius, y + h - 1, color); // 下边
+    Display_DrawLine(x, y + radius, x, y + h - radius, color); // 左边
+    Display_DrawLine(x + w - 1, y + radius, x + w - 1, y + h - radius, color); // 右边
+}
+
+void Display_FillRoundRect(int x, int y, int w, int h, int radius, uint16_t color) {
+    if (radius < 0) radius = 0;
+    if (radius > w/2) radius = w/2;
+    if (radius > h/2) radius = h/2;
+    
+    // 填充中间矩形
+    Display_FillRect(x + radius, y, w - 2 * radius, h, color);
+    
+    // 填充四个边的矩形
+    Display_FillRect(x, y + radius, radius, h - 2 * radius, color);
+    Display_FillRect(x + w - radius, y + radius, radius, h - 2 * radius, color);
+    
+    // 填充四个角的圆角
+    Display_FillCircleQuarter(x + radius, y + radius, radius, 0b1000, color);
+    Display_FillCircleQuarter(x + w - radius, y + radius, radius, 0b0100, color);
+    Display_FillCircleQuarter(x + w - radius, y + h - radius, radius, 0b0010, color);
+    Display_FillCircleQuarter(x + radius, y + h - radius, radius, 0b0001, color);
+}
+
+// 绘制四分之一圆
+void Display_DrawCircleQuarter(int x, int y, int radius, uint8_t quarters, uint16_t color) {
+    int f = 1 - radius;
+    int ddF_x = 1;
+    int ddF_y = -2 * radius;
+    int px = 0;
+    int py = radius;
+    
+    while (px < py) {
+        if (f >= 0) {
+            py--;
+            ddF_y += 2;
+            f += ddF_y;
+        }
+        px++;
+        ddF_x += 2;
+        f += ddF_x;
+        
+        // 根据quarters绘制对应象限的点
+        if (quarters & 0b1000) { // 左上
+            Display_DrawPixel(x - py, y - px, color);
+            Display_DrawPixel(x - px, y - py, color);
+        }
+        if (quarters & 0b0100) { // 右上
+            Display_DrawPixel(x + px, y - py, color);
+            Display_DrawPixel(x + py, y - px, color);
+        }
+        if (quarters & 0b0010) { // 右下
+            Display_DrawPixel(x + py, y + px, color);
+            Display_DrawPixel(x + px, y + py, color);
+        }
+        if (quarters & 0b0001) { // 左下
+            Display_DrawPixel(x - px, y + py, color);
+            Display_DrawPixel(x - py, y + px, color);
+        }
+    }
+}
+
+// 填充四分之一圆
+void Display_FillCircleQuarter(int x, int y, int radius, uint8_t quarters, uint16_t color) {
+    for (int py = -radius; py <= radius; py++) {
+        for (int px = -radius; px <= radius; px++) {
+            if (px*px + py*py <= radius*radius) {
+                bool draw = false;
+                
+                if (quarters & 0b1000 && px <= 0 && py <= 0) draw = true; // 左上
+                if (quarters & 0b0100 && px >= 0 && py <= 0) draw = true; // 右上
+                if (quarters & 0b0010 && px >= 0 && py >= 0) draw = true; // 右下
+                if (quarters & 0b0001 && px <= 0 && py >= 0) draw = true; // 左下
+                
+                if (draw) {
+                    Display_DrawPixel(x + px, y + py, color);
+                }
+            }
+        }
+    }
+}
+
 // ==================== 基本绘图函数（双缓冲） ====================
 
 void Display_DrawPixel(int x, int y, uint16_t color) {
@@ -117,8 +283,19 @@ void Display_DrawPixel(int x, int y, uint16_t color) {
     }
 }
 
+uint16_t Display_GetPixel(int x, int y) {
+    if (!checkBounds(x, y)) return 0;
+    
+    if (double_buffer_enabled) {
+        return frame_buffer[y * 128 + x];
+    } else {
+        // 注意：直接模式可能无法获取像素
+        return 0;
+    }
+}
+
 void Display_DrawLine(int x0, int y0, int x1, int y1, uint16_t color) {
-    // Bresenham直线算法（双缓冲版本）
+    // Bresenham直线算法
     int dx = abs(x1 - x0);
     int dy = abs(y1 - y0);
     int sx = (x0 < x1) ? 1 : -1;
@@ -143,16 +320,15 @@ void Display_DrawLine(int x0, int y0, int x1, int y1, uint16_t color) {
 }
 
 void Display_DrawRect(int x, int y, int w, int h, uint16_t color) {
-    Display_DrawLine(x, y, x + w - 1, y, color);               // 上边
-    Display_DrawLine(x, y + h - 1, x + w - 1, y + h - 1, color); // 下边
-    Display_DrawLine(x, y, x, y + h - 1, color);               // 左边
-    Display_DrawLine(x + w - 1, y, x + w - 1, y + h - 1, color); // 右边
+    Display_DrawLine(x, y, x + w - 1, y, color);
+    Display_DrawLine(x, y + h - 1, x + w - 1, y + h - 1, color);
+    Display_DrawLine(x, y, x, y + h - 1, color);
+    Display_DrawLine(x + w - 1, y, x + w - 1, y + h - 1, color);
 }
 
 void Display_FillRect(int x, int y, int w, int h, uint16_t color) {
     if (!checkRectBounds(x, y, w, h)) return;
     
-    // 裁剪矩形
     clipRect(&x, &y, &w, &h);
     if (w <= 0 || h <= 0) return;
     
@@ -171,7 +347,6 @@ void Display_FillRect(int x, int y, int w, int h, uint16_t color) {
 }
 
 void Display_DrawCircle(int x, int y, int radius, uint16_t color) {
-    // Bresenham圆算法（双缓冲版本）
     int f = 1 - radius;
     int ddF_x = 1;
     int ddF_y = -2 * radius;
@@ -205,7 +380,6 @@ void Display_DrawCircle(int x, int y, int radius, uint16_t color) {
 }
 
 void Display_FillCircle(int x, int y, int radius, uint16_t color) {
-    // 填充圆算法（双缓冲版本）
     for (int py = -radius; py <= radius; py++) {
         int dx = (int)sqrt(radius * radius - py * py);
         Display_DrawLine(x - dx, y + py, x + dx, y + py, color);
@@ -219,7 +393,6 @@ void Display_DrawTriangle(int x0, int y0, int x1, int y1, int x2, int y2, uint16
 }
 
 void Display_FillTriangle(int x0, int y0, int x1, int y1, int x2, int y2, uint16_t color) {
-    // 使用扫线算法填充三角形（双缓冲版本）
     int16_t a, b, y, last;
     int16_t dx01, dy01, dx02, dy02, dx12, dy12;
     int32_t sa = 0, sb = 0;
@@ -229,7 +402,7 @@ void Display_FillTriangle(int x0, int y0, int x1, int y1, int x2, int y2, uint16
     if (y1 > y2) { ::swap(y2, y1); ::swap(x2, x1); }
     if (y0 > y1) { ::swap(y0, y1); ::swap(x0, x1); }
     
-    if (y0 == y2) { // 处理平底三角形
+    if (y0 == y2) {
         a = b = x0;
         if (x1 < a) a = x1;
         else if (x1 > b) b = x1;
@@ -278,20 +451,13 @@ void Display_DrawBitmap1B(int x, int y, int w, int h, const uint8_t* bitmap,
                          uint16_t fg_color, uint16_t bg_color) {
     if (!checkRectBounds(x, y, w, h)) return;
     
-    // 裁剪
     int draw_x = x;
     int draw_y = y;
     int draw_w = w;
     int draw_h = h;
     
-    if (draw_x < 0) { 
-        draw_w += draw_x; 
-        draw_x = 0; 
-    }
-    if (draw_y < 0) { 
-        draw_h += draw_y; 
-        draw_y = 0; 
-    }
+    if (draw_x < 0) { draw_w += draw_x; draw_x = 0; }
+    if (draw_y < 0) { draw_h += draw_y; draw_y = 0; }
     if (draw_x + draw_w > 128) draw_w = 128 - draw_x;
     if (draw_y + draw_h > 160) draw_h = 160 - draw_y;
     
@@ -322,20 +488,13 @@ void Display_DrawBitmap1B(int x, int y, int w, int h, const uint8_t* bitmap,
 void Display_DrawBitmapRGB(int x, int y, int w, int h, const uint16_t* bitmap) {
     if (!checkRectBounds(x, y, w, h)) return;
     
-    // 裁剪
     int draw_x = x;
     int draw_y = y;
     int draw_w = w;
     int draw_h = h;
     
-    if (draw_x < 0) { 
-        draw_w += draw_x; 
-        draw_x = 0; 
-    }
-    if (draw_y < 0) { 
-        draw_h += draw_y; 
-        draw_y = 0; 
-    }
+    if (draw_x < 0) { draw_w += draw_x; draw_x = 0; }
+    if (draw_y < 0) { draw_h += draw_y; draw_y = 0; }
     if (draw_x + draw_w > 128) draw_w = 128 - draw_x;
     if (draw_y + draw_h > 160) draw_h = 160 - draw_y;
     
@@ -355,9 +514,7 @@ void Display_DrawBitmapRGB(int x, int y, int w, int h, const uint16_t* bitmap) {
     }
 }
 
-// ==================== 文本绘制函数（完全双缓冲） ====================
-
-// ==================== 文本绘制核心函数 ====================
+// ==================== 文本绘制函数 ====================
 
 // 将DisplayFont_t映射到FontDataID_t
 static FontDataID_t mapDisplayFontToDataFont(DisplayFont_t display_font) {
@@ -371,18 +528,16 @@ static FontDataID_t mapDisplayFontToDataFont(DisplayFont_t display_font) {
     }
 }
 
-// 获取有效参数（辅助函数）
+// 获取有效参数
 static TextParams_t getEffectiveParams(const TextParams_t* params) {
     if (params) {
         return *params;
     } else {
-        return text_params;  // 使用全局参数
+        return text_params;
     }
 }
 
 // 绘制一个字符到双缓冲
-// 在 display_driver.cpp 中修改 drawCharToBuffer 函数
-// 这是修正后的版本，应该能正确显示字体
 static void drawCharToBuffer(int x, int y, char ch, const TextParams_t* params) {
     if (!checkBounds(x, y) || ch < 32) return;
     
@@ -400,15 +555,12 @@ static void drawCharToBuffer(int x, int y, char ch, const TextParams_t* params) 
                         params->bg_color);
     }
     
-    // 5x7字体：5字节，每字节一列
-    // 关键：传统5x7字体使用7位（bit0-bit6），bit0在顶部
+    // 5x7字体：5字节，每字节一列，bit0在顶部
     if (data_font == FONT_DATA_5x7) {
-        for (int col = 0; col < char_width; col++) {      // 5列
+        for (int col = 0; col < char_width; col++) {
             uint8_t column_data = char_bitmap[col];
             
-            for (int row = 0; row < char_height; row++) {  // 7行
-                // 传统5x7字体：bit0在顶部，bit6在底部
-                // 所以要取第row位（row从0到6）
+            for (int row = 0; row < char_height; row++) {
                 bool pixel_on = (column_data >> row) & 0x01;
                 
                 if (pixel_on) {
@@ -469,98 +621,7 @@ static void drawCharToBuffer(int x, int y, char ch, const TextParams_t* params) 
         }
     }
 }
-void Display_TestFontFormat() {
-    Serial.println("\n=== Testing Font Format ===");
-    
-    FontDataID_t font_id = FONT_DATA_5x7;
-    
-    // 测试字母 'A' 的位图数据
-    uint8_t width, height;
-    const uint8_t* bitmap = Font_GetCharBitmap(font_id, 'A', &width, &height);
-    
-    if (!bitmap) {
-        Serial.println("ERROR: No bitmap for 'A'");
-        return;
-    }
-    
-    Serial.printf("Font 5x7 - Char 'A': width=%d, height=%d\n", width, height);
-    Serial.print("Raw data: ");
-    for (int i = 0; i < 5; i++) {
-        Serial.printf("%02X ", bitmap[i]);
-    }
-    Serial.println();
-    
-    // 尝试不同的数据格式解释
-    Serial.println("\nTrying different data formats:");
-    
-    // 格式1：每列1字节，位0在顶部
-    Serial.println("Format 1: 1 byte per column, bit0 at top");
-    for (int row = 0; row < 7; row++) {
-        Serial.print("  ");
-        for (int col = 0; col < 5; col++) {
-            uint8_t data = bitmap[col];
-            bool pixel = (data >> (6 - row)) & 0x01;  // 位6-row
-            Serial.print(pixel ? "##" : "  ");
-        }
-        Serial.println();
-    }
-    
-    // 格式2：每列1字节，位0在底部
-    Serial.println("\nFormat 2: 1 byte per column, bit0 at bottom");
-    for (int row = 0; row < 7; row++) {
-        Serial.print("  ");
-        for (int col = 0; col < 5; col++) {
-            uint8_t data = bitmap[col];
-            bool pixel = (data >> row) & 0x01;  // 位row
-            Serial.print(pixel ? "##" : "  ");
-        }
-        Serial.println();
-    }
-    
-    // 格式3：每行1字节，5像素
-    Serial.println("\nFormat 3: 1 byte per row, 5 pixels");
-    for (int row = 0; row < 7; row++) {
-        Serial.print("  ");
-        uint8_t data = bitmap[row];
-        for (int bit = 4; bit >= 0; bit--) {
-            bool pixel = (data >> bit) & 0x01;
-            Serial.print(pixel ? "##" : "  ");
-        }
-        Serial.println();
-    }
-}
-void Display_DebugFont(DisplayFont_t font, char ch) {
-    FontDataID_t data_font = mapDisplayFontToDataFont(font);
-    uint8_t width, height;
-    const uint8_t* bitmap = Font_GetCharBitmap(data_font, ch, &width, &height);
-    
-    Serial.printf("Font debug - Char '%c' (%d):\n", ch, ch);
-    Serial.printf("  Mapped font: %d -> %d\n", font, data_font);
-    Serial.printf("  Size: %dx%d\n", width, height);
-    
-    if (!bitmap) {
-        Serial.println("  NO BITMAP!");
-        return;
-    }
-    
-    Serial.printf("  Bitmap data: ");
-    for (int i = 0; i < 5; i++) {
-        Serial.printf("%02X ", bitmap[i]);
-    }
-    Serial.println();
-    
-    // 打印位图预览
-    Serial.println("  Preview:");
-    for (int row = 0; row < 7; row++) {
-        Serial.print("    ");
-        for (int col = 0; col < 5; col++) {
-            uint8_t column_data = bitmap[col];
-            bool pixel = (column_data >> row) & 0x01;
-            Serial.print(pixel ? "##" : "  ");
-        }
-        Serial.println();
-    }
-}
+
 // 绘制字符串到双缓冲
 static void drawStringToBuffer(int x, int y, const char* str, const TextParams_t* params) {
     if (!str || !*str) return;
@@ -571,13 +632,11 @@ static void drawStringToBuffer(int x, int y, const char* str, const TextParams_t
     
     int cursor_x = x;
     int cursor_y = y;
-    int line_height = font_info->height * params->size + 2; // 行间距
+    int line_height = font_info->height * params->size + 2;
     
-    // 逐个字符绘制
     while (*str) {
         char ch = *str;
         
-        // 换行处理
         if (ch == '\n') {
             cursor_x = x;
             cursor_y += line_height;
@@ -585,33 +644,27 @@ static void drawStringToBuffer(int x, int y, const char* str, const TextParams_t
             continue;
         }
         
-        // 获取字符宽度
         uint8_t char_width, char_height;
         Font_GetCharBitmap(data_font, ch, &char_width, &char_height);
         int char_draw_width = char_width * params->size;
         
-        // 检查是否需要换行
         if (cursor_x + char_draw_width > 128 && cursor_x != x) {
             cursor_x = x;
             cursor_y += line_height;
         }
         
-        // 绘制字符
         drawCharToBuffer(cursor_x, cursor_y, ch, params);
         
-        // 移动光标
         cursor_x += char_draw_width + font_info->char_spacing;
-        
         str++;
     }
 }
 
-// 计算文本位置（考虑对齐方式）
+// 计算文本位置
 static void calculateTextPosition(int* x, int* y, const char* str, const TextParams_t* params) {
     int width = Display_GetStringWidth(str, params->font, params->size);
     int height = Display_GetStringHeight(str, params->font, params->size);
     
-    // 水平对齐
     switch (params->h_align) {
         case TEXT_ALIGN_CENTER:
             *x -= width / 2;
@@ -624,7 +677,6 @@ static void calculateTextPosition(int* x, int* y, const char* str, const TextPar
             break;
     }
     
-    // 垂直对齐
     switch (params->v_align) {
         case TEXT_ALIGN_MIDDLE:
             *y -= height / 2;
@@ -667,12 +719,9 @@ void Display_DrawChar(int x, int y, char ch, const TextParams_t* params) {
     TextParams_t effective_params = getEffectiveParams(params);
     
     if (double_buffer_enabled) {
-        // 双缓冲模式：直接操作缓冲区
         drawCharToBuffer(x, y, ch, &effective_params);
     } else {
-        // 直接模式：使用TFT_eSPI（如果需要）
-        // 注意：这里可能会产生不一致，建议始终使用双缓冲
-        tft.setTextFont(1); // GLCD
+        tft.setTextFont(1);
         tft.setTextSize(effective_params.size);
         tft.setTextColor(effective_params.color, effective_params.bg_color);
         tft.setCursor(x, y);
@@ -685,16 +734,13 @@ void Display_DrawString(int x, int y, const char* str, const TextParams_t* param
     
     TextParams_t effective_params = getEffectiveParams(params);
     
-    // 计算对齐后的位置
     int actual_x = x;
     int actual_y = y;
     calculateTextPosition(&actual_x, &actual_y, str, &effective_params);
     
     if (double_buffer_enabled) {
-        // 双缓冲模式：直接操作缓冲区
         drawStringToBuffer(actual_x, actual_y, str, &effective_params);
     } else {
-        // 直接模式
         tft.setTextFont(1);
         tft.setTextSize(effective_params.size);
         tft.setTextColor(effective_params.color, effective_params.bg_color);
@@ -782,4 +828,93 @@ int Display_GetCharWidth(char ch, DisplayFont_t font, uint8_t size) {
     if (!info) return 0;
     
     return info->width * size;
+}
+
+// 高级功能
+void Display_DrawTextWithShadow(int x, int y, const char* str, 
+                               uint16_t text_color, uint16_t shadow_color,
+                               const TextParams_t* base_params) {
+    TextParams_t shadow_params = getEffectiveParams(base_params);
+    shadow_params.color = shadow_color;
+    
+    TextParams_t text_params = getEffectiveParams(base_params);
+    text_params.color = text_color;
+    
+    Display_DrawString(x + 1, y + 1, str, &shadow_params);
+    Display_DrawString(x, y, str, &text_params);
+}
+
+void Display_DrawTextGradient(int x, int y, const char* str,
+                             uint16_t start_color, uint16_t end_color,
+                             const TextParams_t* base_params) {
+    // 注意：这个功能需要更复杂的实现
+    // 这里简化处理，直接绘制
+    TextParams_t params = getEffectiveParams(base_params);
+    params.color = start_color;
+    Display_DrawString(x, y, str, &params);
+}
+
+// 调试函数
+void Display_TestFontFormat() {
+    Serial.println("\n=== Testing Font Format ===");
+    
+    FontDataID_t font_id = FONT_DATA_5x7;
+    
+    uint8_t width, height;
+    const uint8_t* bitmap = Font_GetCharBitmap(font_id, 'A', &width, &height);
+    
+    if (!bitmap) {
+        Serial.println("ERROR: No bitmap for 'A'");
+        return;
+    }
+    
+    Serial.printf("Font 5x7 - Char 'A': width=%d, height=%d\n", width, height);
+    Serial.print("Raw data: ");
+    for (int i = 0; i < 5; i++) {
+        Serial.printf("%02X ", bitmap[i]);
+    }
+    Serial.println();
+    
+    Serial.println("\nPreview (bit0 at bottom):");
+    for (int row = 0; row < 7; row++) {
+        Serial.print("  ");
+        for (int col = 0; col < 5; col++) {
+            uint8_t data = bitmap[col];
+            bool pixel = (data >> row) & 0x01;
+            Serial.print(pixel ? "##" : "  ");
+        }
+        Serial.println();
+    }
+}
+
+void Display_DebugFont(DisplayFont_t font, char ch) {
+    FontDataID_t data_font = mapDisplayFontToDataFont(font);
+    uint8_t width, height;
+    const uint8_t* bitmap = Font_GetCharBitmap(data_font, ch, &width, &height);
+    
+    Serial.printf("Font debug - Char '%c' (%d):\n", ch, ch);
+    Serial.printf("  Mapped font: %d -> %d\n", font, data_font);
+    Serial.printf("  Size: %dx%d\n", width, height);
+    
+    if (!bitmap) {
+        Serial.println("  NO BITMAP!");
+        return;
+    }
+    
+    Serial.printf("  Bitmap data: ");
+    for (int i = 0; i < 5; i++) {
+        Serial.printf("%02X ", bitmap[i]);
+    }
+    Serial.println();
+    
+    Serial.println("  Preview:");
+    for (int row = 0; row < 7; row++) {
+        Serial.print("    ");
+        for (int col = 0; col < 5; col++) {
+            uint8_t column_data = bitmap[col];
+            bool pixel = (column_data >> row) & 0x01;
+            Serial.print(pixel ? "##" : "  ");
+        }
+        Serial.println();
+    }
 }

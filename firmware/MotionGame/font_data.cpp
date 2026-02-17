@@ -292,45 +292,42 @@ const uint8_t* Font_GetCharBitmap(FontDataID_t font_id, char ch,
     if (width) *width = info->width;
     if (height) *height = info->height;
     
-    // 调试：显示字符信息
-    Serial.printf("[FONT] Request char '%c' (%d), range: %d-%d\n", 
-                  ch, ch, info->first_char, info->last_char);
+    // // 调试：显示字符信息
+    // Serial.printf("[FONT] Request char '%c' (%d), range: %d-%d\n", 
+    //               ch, ch, info->first_char, info->last_char);
     
     // 检查字符是否在范围内
     if (ch < info->first_char || ch > info->last_char) {
-        Serial.printf("[FONT] Char %d out of range, using '?'\n", ch);
+       // Serial.printf("[FONT] Char %d out of range, using '?'\n", ch);
         ch = '?';  // 显示问号
     }
     
     // 计算字符索引
     int char_index = ch - info->first_char;
-    Serial.printf("[FONT] Char index: %d - %d = %d\n", 
-                  ch, info->first_char, char_index);
+   // Serial.printf("[FONT] Char index: %d - %d = %d\n", ch, info->first_char, char_index);
     
     // 5x7字体：每个字符5字节
     int bytes_per_char = 5;
     
     // 计算数据偏移
     int data_offset = char_index * bytes_per_char;
-    Serial.printf("[FONT] Data offset: %d * %d = %d\n", 
-                  char_index, bytes_per_char, data_offset);
+   // Serial.printf("[FONT] Data offset: %d * %d = %d\n",                  char_index, bytes_per_char, data_offset);
     
     // 检查边界
     int max_offset = sizeof(font5x7_complete) - bytes_per_char;
     if (data_offset < 0 || data_offset > max_offset) {
-        Serial.printf("[FONT] ERROR: Offset %d out of range (0-%d)\n", 
-                      data_offset, max_offset);
+      //  Serial.printf("[FONT] ERROR: Offset %d out of range (0-%d)\n",  data_offset, max_offset);
         return NULL;
     }
     
     const uint8_t* bitmap = &info->data[data_offset];
     
     // 调试：显示位图数据
-    Serial.printf("[FONT] Bitmap for '%c': ", ch);
-    for (int i = 0; i < 5; i++) {
-        Serial.printf("%02X ", bitmap[i]);
-    }
-    Serial.println();
+//    Serial.printf("[FONT] Bitmap for '%c': ", ch);
+    // for (int i = 0; i < 5; i++) {
+    //     Serial.printf("%02X ", bitmap[i]);
+    // }
+    // Serial.println();
     
     return bitmap;
 }

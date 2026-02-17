@@ -1,0 +1,149 @@
+{
+  "LineSegment2D": [ // 二维线段
+    {
+      "ID": "g8", // 编号
+      "EndPoint": {"X": 2.54, "Y": 3.81}, // 结束点
+      "StartPoint": {"X": -2.54, "Y": 3.81} // 起始点
+    },
+    {
+      "ID": "g11", // 编号
+      "EndPoint": {"X": 0, "Y": 1.27}, // 结束点
+      "StartPoint": {"X": 0, "Y": 3.81} // 起始点
+    }
+  ],
+  "Polycurve2D": [ // 二维折线
+    {"ID": "g9", "Curve": ["g8"]}, // 编号 - 曲线
+    {"ID": "g12", "Curve": ["g11"]} // 编号 - 曲线
+  ],
+  "FontDefinition": [
+    {
+      "ID": "g1", // 编号
+      "Align": "CenterLeft", // 对齐方式
+      "CharSpace": 0,
+      "FontFamily": "Arial", // 字体名称
+      "Italic": false, // 斜体
+      "LineSpace": 0,
+      "Overline": false, // 上划线
+      "Strikenout": false, // 删除线
+      "Underline": false, // 下划线
+      "Width": 0, // 宽
+      "Weight": 0 // 字重
+    },
+    {
+      "ID": "g4", // 编号
+      "Align": "BottomRight", // 对齐方式
+      "CharSpace": 0,
+      "FontFamily": "Arial", // 字体名称
+      "Italic": false, // 斜体
+      "LineSpace": 0,
+      "Overline": false, // 上划线
+      "Strikenout": false, // 删除线
+      "Underline": false, // 下划线
+      "Width": 0, // 宽
+      "Weight": 0 // 字重
+    }
+  ],
+  "Text2D": [
+    {
+      "ID": "g2", // 编号
+      "FontDefinition": "g1",
+      "FontSize": 2.032, // 字体大小
+      "Mirror": false, // 镜像
+      "OriginPoint": {"X": 0, "Y": 1.27}, // 原点
+      "Rotation": 1.5707963267948966, // 旋转弧度
+      "Text": "" // 文本
+    },
+    {
+      "ID": "g5", // 编号
+      "FontDefinition": "g4",
+      "FontSize": 2.032, // 字体大小
+      "Mirror": false, // 镜像
+      "OriginPoint": {"X": 0, "Y": 1.143}, // 原点
+      "Rotation": 1.5707963267948966, // 旋转弧度
+      "Text": "" // 文本
+    }
+  ],
+  "Symbol": [
+    {
+      "ID": "g14", // 编号
+      "IsHomogeneous": false,
+      "Name": "Power-VCC", // 名称
+      "Purpose": "Netflag", // 用途 - 网络标识符号
+      "SubPart": [{"Name": "pid8a0e77bacb214e", "Shapes": ["g7", "g10", "g13"]}], // 子件 - 名称
+      "Tolerance": [
+        {
+          "IsZero": true, // 是否为零
+          "LimitsValue": 1e-8, // 容差范围限定
+          "ToleranceType": "DistanceTolerance" // 容差类型
+        }
+      ]
+    }
+  ],
+  "SymbolAttribute": [
+    {
+      "ID": "g3", // 编号
+      "Depth": 2, // 深度
+      "FillColor": "000000FF", // 填充颜色
+      "Key": "Pin Name", // 键
+      "KeyVisible": false, // 是否显示键
+      "Text": "g2", // 文本
+      "Value": "Pin1", // 值
+      "ValueVisible": false // 是否显示值
+    },
+    {
+      "ID": "g6", // 编号
+      "Depth": 3, // 深度
+      "FillColor": "000000FF", // 填充颜色
+      "Key": "Pin Number", // 键
+      "KeyVisible": false, // 是否显示键
+      "Text": "g5", // 文本
+      "Value": "1", // 值
+      "ValueVisible": false // 是否显示值
+    }
+  ],
+  "SymbolShape": [
+    {
+      "ID": "g10", // 编号
+      "Depth": 4, // 深度
+      "FillColor": "00000000", // 填充颜色
+      "FillLineWidth": 1, // 填充线线宽
+      "FillStyle": "Solid", // 填充样式 - 实心
+      "FillVisible": false, // 是否填充
+      "LineColor": "A00000FF", // 线颜色
+      "LineStyle": "Solid", // 线样式 - 实心
+      "LineVisible": false, // 线显示
+      "LineWidth": 0.254, // 线宽
+      "Mirror": false, // 镜像
+      "Shape": "g9" // 几何形状
+    },
+    {
+      "ID": "g13", // 编号
+      "Depth": 5, // 深度
+      "FillColor": "00000000", // 填充颜色
+      "FillLineWidth": 1, // 填充线线宽
+      "FillStyle": "Solid", // 填充样式 - 实心
+      "FillVisible": false, // 是否填充
+      "LineColor": "A00000FF", // 线颜色
+      "LineStyle": "Solid", // 线样式 - 实心
+      "LineVisible": false, // 线显示
+      "LineWidth": 0.254, // 线宽
+      "Mirror": false, // 镜像
+      "Shape": "g12" // 几何形状
+    }
+  ],
+  "Pin": [ // 引脚
+    {
+      "ID": "g7", // 编号
+      "Depth": 1, // 深度
+      "Attribute": [], // 属性
+      "ElectricalType": "Input", // 电气类型
+      "Location": {"X": 0, "Y": 0}, // 位置
+      "PinColor": "880000FF", // 引脚颜色
+      "PinLength": 1.27, // 引脚长度
+      "PinName": "g3",
+      "PinNumber": "g6",
+      "PinVisible": true, // 引脚可见
+      "Rotation": 1.5707963267948966 // 旋转弧度
+    }
+  ]
+}

@@ -1,0 +1,425 @@
+<?xml version="1.0"?>
+<root xmlns="http://disa.org.cn/ECAD/STD/2024/XMLSchema/SymbolPackage">
+  <LineSegment2D> <!-- 二维线段 -->
+    <ID>g21</ID> <!-- 编号 -->
+    <EndPoint> <!-- 结束点 -->
+      <X>10.033</X>
+      <Y>29.000000419999996</Y>
+    </EndPoint>
+    <StartPoint> <!-- 起始点 -->
+      <X>10.033</X>
+      <Y>0</Y>
+    </StartPoint>
+  </LineSegment2D>
+  <LineSegment2D> <!-- 二维线段 -->
+    <ID>g24</ID> <!-- 编号 -->
+    <EndPoint> <!-- 结束点 -->
+      <X>-15.966998799999999</X>
+      <Y>29.000000419999996</Y>
+    </EndPoint>
+    <StartPoint> <!-- 起始点 -->
+      <X>10.033</X>
+      <Y>29.000000419999996</Y>
+    </StartPoint>
+  </LineSegment2D>
+  <LineSegment2D> <!-- 二维线段 -->
+    <ID>g27</ID> <!-- 编号 -->
+    <EndPoint> <!-- 结束点 -->
+      <X>-15.966998799999999</X>
+      <Y>0</Y>
+    </EndPoint>
+    <StartPoint> <!-- 起始点 -->
+      <X>-15.966998799999999</X>
+      <Y>29.000000419999996</Y>
+    </StartPoint>
+  </LineSegment2D>
+  <LineSegment2D> <!-- 二维线段 -->
+    <ID>g30</ID> <!-- 编号 -->
+    <EndPoint> <!-- 结束点 -->
+      <X>10.033</X>
+      <Y>0</Y>
+    </EndPoint>
+    <StartPoint> <!-- 起始点 -->
+      <X>-15.966998799999999</X>
+      <Y>0</Y>
+    </StartPoint>
+  </LineSegment2D>
+  <Polycurve2D> <!-- 二维折线 -->
+    <ID>g22</ID> <!-- 编号 -->
+    <Curve>g21</Curve> <!-- 曲线 -->
+  </Polycurve2D>
+  <Polycurve2D> <!-- 二维折线 -->
+    <ID>g25</ID> <!-- 编号 -->
+    <Curve>g24</Curve> <!-- 曲线 -->
+  </Polycurve2D>
+  <Polycurve2D> <!-- 二维折线 -->
+    <ID>g28</ID> <!-- 编号 -->
+    <Curve>g27</Curve> <!-- 曲线 -->
+  </Polycurve2D>
+  <Polycurve2D> <!-- 二维折线 -->
+    <ID>g31</ID> <!-- 编号 -->
+    <Curve>g30</Curve> <!-- 曲线 -->
+  </Polycurve2D>
+  <Polycurve2D> <!-- 二维折线 -->
+    <ID>g36</ID> <!-- 编号 -->
+    <Curve>g35</Curve> <!-- 曲线 -->
+  </Polycurve2D>
+  <Circle2D>
+    <ID>g33</ID> <!-- 编号 -->
+    <CenterPoint> <!-- 圆心 -->
+      <X>-5.257749199999999</X>
+      <Y>18.607930779999997</Y>
+    </CenterPoint>
+    <Radius>0.06106922</Radius> <!-- 半径 -->
+  </Circle2D>
+  <Rectangle> <!-- 矩形 -->
+    <ID>g1</ID> <!-- 编号 -->
+    <ChamferX>0.19999959999999997</ChamferX> <!-- 水平倒角尺寸 -->
+    <ChamferY>0.19999959999999997</ChamferY> <!-- 垂直倒角尺寸 -->
+    <Height>2.4999949999999997</Height> <!-- 高 -->
+    <Position> <!-- 位置 -->
+      <X>0.19999959999999997</X>
+      <Y>-1.2499974999999999</Y>
+    </Position>
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+    <Width>0.39999919999999994</Width> <!-- 宽 -->
+  </Rectangle>
+  <Rectangle> <!-- 矩形 -->
+    <ID>g3</ID> <!-- 编号 -->
+    <ChamferX>0.22539959999999998</ChamferX> <!-- 水平倒角尺寸 -->
+    <ChamferY>0.22539959999999998</ChamferY> <!-- 垂直倒角尺寸 -->
+    <Height>2.550795</Height> <!-- 高 -->
+    <Position> <!-- 位置 -->
+      <X>0.1491996</X>
+      <Y>-1.3007974999999998</Y>
+    </Position>
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+    <Width>0.45079919999999996</Width> <!-- 宽 -->
+  </Rectangle>
+  <Rectangle> <!-- 矩形 -->
+    <ID>g16</ID> <!-- 编号 -->
+    <ChamferX>0.21269959999999996</ChamferX> <!-- 水平倒角尺寸 -->
+    <ChamferY>0.21269959999999996</ChamferY> <!-- 垂直倒角尺寸 -->
+    <Height>2.5253949999999996</Height> <!-- 高 -->
+    <Position> <!-- 位置 -->
+      <X>0.17459959999999997</X>
+      <Y>-1.2753975</Y>
+    </Position>
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+    <Width>0.4253991999999999</Width> <!-- 宽 -->
+  </Rectangle>
+  <Rectangle> <!-- 矩形 -->
+    <ID>g35</ID> <!-- 编号 -->
+    <Height>3.4289999999999985</Height> <!-- 高 -->
+    <Position> <!-- 位置 -->
+      <X>-5.257749199999999</X>
+      <Y>18.607930779999997</Y>
+    </Position>
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+    <Width>10.794999999999998</Width> <!-- 宽 -->
+  </Rectangle>
+  <FontDefinition>
+    <ID>g38</ID> <!-- 编号 -->
+    <Align>BottomLeft</Align> <!-- 对齐方式 -->
+    <CharSpace>0</CharSpace>
+    <FontFamily>default</FontFamily> <!-- 字体名称 -->
+    <Italic>false</Italic> <!-- 斜体 -->
+    <LineSpace>0</LineSpace>
+    <Overline>false</Overline> <!-- 上划线 -->
+    <Strikenout>false</Strikenout> <!-- 删除线 -->
+    <Underline>false</Underline> <!-- 下划线 -->
+    <Width>0.203</Width> <!-- 宽 -->
+    <Weight>0</Weight> <!-- 字重 -->
+  </FontDefinition>
+  <FontDefinition>
+    <ID>g41</ID> <!-- 编号 -->
+    <Align>BottomLeft</Align> <!-- 对齐方式 -->
+    <CharSpace>0</CharSpace>
+    <FontFamily>default</FontFamily> <!-- 字体名称 -->
+    <Italic>false</Italic> <!-- 斜体 -->
+    <LineSpace>0</LineSpace>
+    <Overline>false</Overline> <!-- 上划线 -->
+    <Strikenout>false</Strikenout> <!-- 删除线 -->
+    <Underline>false</Underline> <!-- 下划线 -->
+    <Width>0.1524</Width> <!-- 宽 -->
+    <Weight>0</Weight> <!-- 字重 -->
+  </FontDefinition>
+  <Text2D>
+    <ID>g39</ID> <!-- 编号 -->
+    <FontDefinition>g38</FontDefinition>
+    <FontSize>3.048</FontSize> <!-- 字体大小 -->
+    <Mirror>false</Mirror> <!-- 镜像 -->
+    <OriginPoint> <!-- 原点 -->
+      <X>-12.7</X>
+      <Y>6.731</Y>
+    </OriginPoint>
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+    <Text>240x240</Text> <!-- 文本 -->
+  </Text2D>
+  <Text2D>
+    <ID>g42</ID> <!-- 编号 -->
+    <FontDefinition>g41</FontDefinition>
+    <FontSize>1.143</FontSize> <!-- 字体大小 -->
+    <Mirror>false</Mirror> <!-- 镜像 -->
+    <OriginPoint> <!-- 原点 -->
+      <X>0</X>
+      <Y>0</Y>
+    </OriginPoint>
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+    <Text/>
+  </Text2D>
+  <Footprint>
+    <ID>g44</ID> <!-- 编号 -->
+    <Name>1.3寸240*240焊接12pin_0.8</Name> <!-- 名称 -->
+    <Pad>g6</Pad> <!-- 焊盘 -->
+    <Pad>g7</Pad> <!-- 焊盘 -->
+    <Pad>g8</Pad> <!-- 焊盘 -->
+    <Pad>g9</Pad> <!-- 焊盘 -->
+    <Pad>g10</Pad> <!-- 焊盘 -->
+    <Pad>g11</Pad> <!-- 焊盘 -->
+    <Pad>g12</Pad> <!-- 焊盘 -->
+    <Pad>g13</Pad> <!-- 焊盘 -->
+    <Pad>g14</Pad> <!-- 焊盘 -->
+    <Pad>g15</Pad> <!-- 焊盘 -->
+    <Pad>g19</Pad> <!-- 焊盘 -->
+    <Pad>g20</Pad> <!-- 焊盘 -->
+    <Purpose>Component</Purpose> <!-- 用途 -->
+    <Shapes>g23</Shapes>
+    <Shapes>g26</Shapes>
+    <Shapes>g29</Shapes>
+    <Shapes>g32</Shapes>
+    <Shapes>g34</Shapes>
+    <Shapes>g37</Shapes>
+    <Shapes>g40</Shapes>
+    <Shapes>g43</Shapes>
+    <Tolerance>
+      <IsZero>true</IsZero> <!-- 是否为零 -->
+      <LimitsValue>1e-8</LimitsValue> <!-- 容差范围限定 -->
+      <ToleranceType>DistanceTolerance</ToleranceType> <!-- 容差类型 -->
+    </Tolerance>
+  </Footprint>
+  <FootprintAttribute>
+    <ID>g43</ID> <!-- 编号 -->
+    <Depth>8</Depth> <!-- 深度 -->
+    <Layer>TopSilkscreenLayer</Layer> <!-- 层 -->
+    <Key>Footprint</Key> <!-- 键 -->
+    <KeyVisible>false</KeyVisible> <!-- 是否显示键 -->
+    <Text>g42</Text> <!-- 文本 -->
+    <Value>1.3寸240*240焊接12pin_0.8</Value> <!-- 值 -->
+    <ValueVisible>false</ValueVisible> <!-- 是否显示值 -->
+  </FootprintAttribute>
+  <FootprintText>
+    <ID>g40</ID> <!-- 编号 -->
+    <Depth>7</Depth> <!-- 深度 -->
+    <Layer>DocumentLayer</Layer> <!-- 层 -->
+    <Text>g39</Text> <!-- 文本 -->
+  </FootprintText>
+  <FootprintLine>
+    <ID>g23</ID> <!-- 编号 -->
+    <Depth>1</Depth> <!-- 深度 -->
+    <Layer>DocumentLayer</Layer> <!-- 层 -->
+    <LineWidth>0.254</LineWidth> <!-- 线宽 -->
+    <Shape>g22</Shape> <!-- 几何形状 -->
+  </FootprintLine>
+  <FootprintLine>
+    <ID>g26</ID> <!-- 编号 -->
+    <Depth>2</Depth> <!-- 深度 -->
+    <Layer>DocumentLayer</Layer> <!-- 层 -->
+    <LineWidth>0.254</LineWidth> <!-- 线宽 -->
+    <Shape>g25</Shape> <!-- 几何形状 -->
+  </FootprintLine>
+  <FootprintLine>
+    <ID>g29</ID> <!-- 编号 -->
+    <Depth>3</Depth> <!-- 深度 -->
+    <Layer>DocumentLayer</Layer> <!-- 层 -->
+    <LineWidth>0.254</LineWidth> <!-- 线宽 -->
+    <Shape>g28</Shape> <!-- 几何形状 -->
+  </FootprintLine>
+  <FootprintLine>
+    <ID>g32</ID> <!-- 编号 -->
+    <Depth>4</Depth> <!-- 深度 -->
+    <Layer>DocumentLayer</Layer> <!-- 层 -->
+    <LineWidth>0.254</LineWidth> <!-- 线宽 -->
+    <Shape>g31</Shape> <!-- 几何形状 -->
+  </FootprintLine>
+  <FootprintLine>
+    <ID>g34</ID> <!-- 编号 -->
+    <Depth>5</Depth> <!-- 深度 -->
+    <Layer>TopSilkscreenLayer</Layer> <!-- 层 -->
+    <LineWidth>0.254</LineWidth> <!-- 线宽 -->
+    <Shape>g33</Shape> <!-- 几何形状 -->
+  </FootprintLine>
+  <FootprintLine>
+    <ID>g37</ID> <!-- 编号 -->
+    <Depth>6</Depth> <!-- 深度 -->
+    <Layer>DocumentLayer</Layer> <!-- 层 -->
+    <LineWidth>0.09999979999999999</LineWidth> <!-- 线宽 -->
+    <Shape>g36</Shape> <!-- 几何形状 -->
+  </FootprintLine>
+  <Pad> <!-- 焊盘 -->
+    <ID>g6</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>4.58908658</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>12</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g7</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>3.78908564</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>11</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g8</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>2.98908724</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>10</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g9</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>2.1890863</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>9</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g10</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>1.38908536</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>8</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g11</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>0.5890869599999999</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>7</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g12</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>-0.21091397999999997</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>6</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g13</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>-1.01091238</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>5</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g14</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>-1.8109133199999998</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>4</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g15</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>-2.61091426</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>3</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g5</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g19</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>-3.41091266</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>2</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g18</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <Pad> <!-- 焊盘 -->
+    <ID>g20</ID> <!-- 编号 -->
+    <Location> <!-- 位置 -->
+      <X>-4.2109136</X>
+      <Y>16.95698158</Y>
+    </Location>
+    <PadNumber>1</PadNumber> <!-- 焊盘编号 -->
+    <PadStack>g18</PadStack> <!-- 焊盘堆栈 -->
+    <Rotation>0</Rotation> <!-- 旋转弧度 -->
+  </Pad>
+  <PadStack> <!-- 焊盘堆栈 -->
+    <ID>g5</ID> <!-- 编号 -->
+    <LayerPadShape>
+      <Layer>TopLayer</Layer> <!-- 层 -->
+      <RegularPad>g2</RegularPad> <!-- 常规焊盘 -->
+    </LayerPadShape>
+    <LayerPadShape>
+      <Layer>TopSolderMaskLayer</Layer> <!-- 层 -->
+      <RegularPad>g4</RegularPad> <!-- 常规焊盘 -->
+    </LayerPadShape>
+    <LayerPadShape>
+      <Layer>TopPasteMaskLayer</Layer> <!-- 层 -->
+      <RegularPad>g2</RegularPad> <!-- 常规焊盘 -->
+    </LayerPadShape>
+    <Name/>
+    <PadStackType>BlindBuriedVia</PadStackType> <!-- 焊盘堆栈类型 -->
+  </PadStack>
+  <PadStack> <!-- 焊盘堆栈 -->
+    <ID>g18</ID> <!-- 编号 -->
+    <LayerPadShape>
+      <Layer>TopLayer</Layer> <!-- 层 -->
+      <RegularPad>g2</RegularPad> <!-- 常规焊盘 -->
+    </LayerPadShape>
+    <LayerPadShape>
+      <Layer>TopSolderMaskLayer</Layer> <!-- 层 -->
+      <RegularPad>g17</RegularPad> <!-- 常规焊盘 -->
+    </LayerPadShape>
+    <LayerPadShape>
+      <Layer>TopPasteMaskLayer</Layer> <!-- 层 -->
+      <RegularPad>g2</RegularPad> <!-- 常规焊盘 -->
+    </LayerPadShape>
+    <Name/>
+    <PadStackType>BlindBuriedVia</PadStackType> <!-- 焊盘堆栈类型 -->
+  </PadStack>
+  <PadShape>
+    <ID>g2</ID> <!-- 编号 -->
+    <Shape>g1</Shape> <!-- 几何形状 -->
+  </PadShape>
+  <PadShape>
+    <ID>g4</ID> <!-- 编号 -->
+    <Shape>g3</Shape> <!-- 几何形状 -->
+  </PadShape>
+  <PadShape>
+    <ID>g17</ID> <!-- 编号 -->
+    <Shape>g16</Shape> <!-- 几何形状 -->
+  </PadShape>
+</root>

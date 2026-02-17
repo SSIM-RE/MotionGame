@@ -8,7 +8,7 @@
 #include "motion_debug_ui.h"
 #include "motion_debug_serial.h"
 #include "menu_service.h"
-void setup() {
+void setup() {				
     Serial.begin(115200);
     lcd_init();
     Input_Init();

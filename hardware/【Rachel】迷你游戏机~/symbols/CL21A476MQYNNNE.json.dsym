@@ -1,0 +1,227 @@
+{
+  "LineSegment2D": [ // 二维线段
+    {
+      "ID": "g11", // 编号
+      "EndPoint": {"X": -0.508, "Y": -2.032}, // 结束点
+      "StartPoint": {"X": -0.508, "Y": 2.032} // 起始点
+    },
+    {
+      "ID": "g14", // 编号
+      "EndPoint": {"X": 0.508, "Y": -2.032}, // 结束点
+      "StartPoint": {"X": 0.508, "Y": 2.032} // 起始点
+    },
+    {
+      "ID": "g17", // 编号
+      "EndPoint": {"X": -0.508, "Y": 0}, // 结束点
+      "StartPoint": {"X": -1.27, "Y": 0} // 起始点
+    },
+    {
+      "ID": "g20", // 编号
+      "EndPoint": {"X": 1.27, "Y": 0}, // 结束点
+      "StartPoint": {"X": 0.508, "Y": 0} // 起始点
+    }
+  ],
+  "Polycurve2D": [ // 二维折线
+    {"ID": "g12", "Curve": ["g11"]}, // 编号 - 曲线
+    {"ID": "g15", "Curve": ["g14"]}, // 编号 - 曲线
+    {"ID": "g18", "Curve": ["g17"]}, // 编号 - 曲线
+    {"ID": "g21", "Curve": ["g20"]} // 编号 - 曲线
+  ],
+  "FontDefinition": [
+    {
+      "ID": "g1", // 编号
+      "Align": "BottomLeft", // 对齐方式
+      "CharSpace": 0,
+      "FontFamily": "Arial", // 字体名称
+      "Italic": false, // 斜体
+      "LineSpace": 0,
+      "Overline": false, // 上划线
+      "Strikenout": false, // 删除线
+      "Underline": false, // 下划线
+      "Width": 0, // 宽
+      "Weight": 0 // 字重
+    },
+    {
+      "ID": "g4", // 编号
+      "Align": "BottomRight", // 对齐方式
+      "CharSpace": 0,
+      "FontFamily": "Arial", // 字体名称
+      "Italic": false, // 斜体
+      "LineSpace": 0,
+      "Overline": false, // 上划线
+      "Strikenout": false, // 删除线
+      "Underline": false, // 下划线
+      "Width": 0, // 宽
+      "Weight": 0 // 字重
+    }
+  ],
+  "Text2D": [
+    {
+      "ID": "g2", // 编号
+      "FontDefinition": "g1",
+      "FontSize": 2.032, // 字体大小
+      "Mirror": false, // 镜像
+      "OriginPoint": {"X": 0, "Y": 0}, // 原点
+      "Rotation": 0, // 旋转弧度
+      "Text": "" // 文本
+    },
+    {
+      "ID": "g5", // 编号
+      "FontDefinition": "g4",
+      "FontSize": 2.032, // 字体大小
+      "Mirror": false, // 镜像
+      "OriginPoint": {"X": 0, "Y": 0}, // 原点
+      "Rotation": 0, // 旋转弧度
+      "Text": "" // 文本
+    }
+  ],
+  "Symbol": [
+    {
+      "ID": "g23", // 编号
+      "IsHomogeneous": false,
+      "Name": "CL21A476MQYNNNE", // 名称
+      "Purpose": "Component", // 用途 - 元件
+      "SubPart": [ // 子件
+        {
+          "Name": "CL21A476MQYNNNE.1", // 名称
+          "Shapes": ["g7", "g10", "g13", "g16", "g19", "g22"]
+        }
+      ],
+      "Tolerance": [
+        {
+          "IsZero": true, // 是否为零
+          "LimitsValue": 1e-8, // 容差范围限定
+          "ToleranceType": "DistanceTolerance" // 容差类型
+        }
+      ]
+    }
+  ],
+  "SymbolAttribute": [
+    {
+      "ID": "g3", // 编号
+      "Depth": 2, // 深度
+      "FillColor": "000000FF", // 填充颜色
+      "Key": "Pin Name", // 键
+      "KeyVisible": false, // 是否显示键
+      "Text": "g2", // 文本
+      "Value": "1", // 值
+      "ValueVisible": false // 是否显示值
+    },
+    {
+      "ID": "g6", // 编号
+      "Depth": 3, // 深度
+      "FillColor": "000000FF", // 填充颜色
+      "Key": "Pin Number", // 键
+      "KeyVisible": false, // 是否显示键
+      "Text": "g5", // 文本
+      "Value": "1", // 值
+      "ValueVisible": false // 是否显示值
+    },
+    {
+      "ID": "g8", // 编号
+      "Depth": 5, // 深度
+      "FillColor": "000000FF", // 填充颜色
+      "Key": "Pin Name", // 键
+      "KeyVisible": false, // 是否显示键
+      "Text": "g5", // 文本
+      "Value": "2", // 值
+      "ValueVisible": false // 是否显示值
+    },
+    {
+      "ID": "g9", // 编号
+      "Depth": 6, // 深度
+      "FillColor": "000000FF", // 填充颜色
+      "Key": "Pin Number", // 键
+      "KeyVisible": false, // 是否显示键
+      "Text": "g2", // 文本
+      "Value": "2", // 值
+      "ValueVisible": false // 是否显示值
+    }
+  ],
+  "SymbolShape": [
+    {
+      "ID": "g13", // 编号
+      "Depth": 7, // 深度
+      "FillColor": "00000000", // 填充颜色
+      "FillLineWidth": 1, // 填充线线宽
+      "FillStyle": "Solid", // 填充样式 - 实心
+      "FillVisible": false, // 是否填充
+      "LineColor": "A00000FF", // 线颜色
+      "LineStyle": "Solid", // 线样式 - 实心
+      "LineVisible": false, // 线显示
+      "LineWidth": 0.254, // 线宽
+      "Mirror": false, // 镜像
+      "Shape": "g12" // 几何形状
+    },
+    {
+      "ID": "g16", // 编号
+      "Depth": 8, // 深度
+      "FillColor": "00000000", // 填充颜色
+      "FillLineWidth": 1, // 填充线线宽
+      "FillStyle": "Solid", // 填充样式 - 实心
+      "FillVisible": false, // 是否填充
+      "LineColor": "A00000FF", // 线颜色
+      "LineStyle": "Solid", // 线样式 - 实心
+      "LineVisible": false, // 线显示
+      "LineWidth": 0.254, // 线宽
+      "Mirror": false, // 镜像
+      "Shape": "g15" // 几何形状
+    },
+    {
+      "ID": "g19", // 编号
+      "Depth": 9, // 深度
+      "FillColor": "00000000", // 填充颜色
+      "FillLineWidth": 1, // 填充线线宽
+      "FillStyle": "Solid", // 填充样式 - 实心
+      "FillVisible": false, // 是否填充
+      "LineColor": "A00000FF", // 线颜色
+      "LineStyle": "Solid", // 线样式 - 实心
+      "LineVisible": false, // 线显示
+      "LineWidth": 0.254, // 线宽
+      "Mirror": false, // 镜像
+      "Shape": "g18" // 几何形状
+    },
+    {
+      "ID": "g22", // 编号
+      "Depth": 10, // 深度
+      "FillColor": "00000000", // 填充颜色
+      "FillLineWidth": 1, // 填充线线宽
+      "FillStyle": "Solid", // 填充样式 - 实心
+      "FillVisible": false, // 是否填充
+      "LineColor": "A00000FF", // 线颜色
+      "LineStyle": "Solid", // 线样式 - 实心
+      "LineVisible": false, // 线显示
+      "LineWidth": 0.254, // 线宽
+      "Mirror": false, // 镜像
+      "Shape": "g21" // 几何形状
+    }
+  ],
+  "Pin": [ // 引脚
+    {
+      "ID": "g7", // 编号
+      "Depth": 1, // 深度
+      "Attribute": [], // 属性
+      "ElectricalType": "Input", // 电气类型
+      "Location": {"X": -3.81, "Y": 0}, // 位置
+      "PinColor": "880000FF", // 引脚颜色
+      "PinLength": 2.54, // 引脚长度
+      "PinName": "g3",
+      "PinNumber": "g6",
+      "PinVisible": true, // 引脚可见
+      "Rotation": 0 // 旋转弧度
+    },
+    {
+      "ID": "g10", // 编号
+      "Depth": 4, // 深度
+      "Attribute": [], // 属性
+      "ElectricalType": "Input", // 电气类型
+      "Location": {"X": 3.81, "Y": 0}, // 位置
+      "PinColor": "880000FF", // 引脚颜色
+      "PinLength": 2.54, // 引脚长度
+      "PinName": "g8",
+      "PinNumber": "g9",
+      "PinVisible": true, // 引脚可见
+      "Rotation": 3.141592653589793 // 旋转弧度
+    }
+  ]
+}

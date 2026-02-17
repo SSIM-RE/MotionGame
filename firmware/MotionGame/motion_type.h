@@ -2,9 +2,9 @@
 /* ================= 参数配置 ================= */
 
 /* 倾斜阈值（角度） */
-#define ROLL_THRESHOLD_DEG        20.0f
+#define ROLL_THRESHOLD_DEG        15.0f
 
-#define PITCH_THRESHOLD_DEG        20.0f
+#define PITCH_THRESHOLD_DEG        15.0f
 
 /* 晃动阈值 */
 #define SHAKE_ACC_THRESHOLD   0.35f
