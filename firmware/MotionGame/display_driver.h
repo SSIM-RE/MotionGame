@@ -76,7 +76,7 @@ void Display_FillTriangle(int x0, int y0, int x1, int y1, int x2, int y2, uint16
 
 // -------------------- 高级绘图函数 --------------------
 void Display_DrawPixelAlpha(int x, int y, uint16_t color, float alpha);
-
+void DrawTrapezoid(float xTop, float xBottom, float yTop, float yBottom, float wTop, float wBottom, uint16_t color);
 // -------------------- 位图绘制 --------------------
 void Display_DrawBitmap1B(int x, int y, int w, int h, const uint8_t* bitmap,
                          uint16_t fg_color, uint16_t bg_color);

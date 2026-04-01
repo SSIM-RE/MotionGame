@@ -12,6 +12,7 @@ static uint32_t last_motion_time = 0;
 static float ref_roll  = 0.0f;
 static float ref_pitch = 0.0f;
 static bool  ref_valid = false;
+
 /* ================= 初始化 ================= */
 
 void MotionService_Init(void)
@@ -126,12 +127,19 @@ MotionType_t MotionService_Update(void)
             last_motion = detected;
             last_motion_time = millis();
             Serial.printf(motion_to_str(detected));
+            IMU_me.motion = detected;  // 记录当前动作
             return detected;
+        }
+        else
+        {
+            // 冷却中或相同动作，不触发
+            IMU_me.motion = MOTION_NONE;
         }
     }
     else
     {
         last_motion = MOTION_NONE;
+        IMU_me.motion = MOTION_NONE;
     }
 
     return MOTION_NONE;

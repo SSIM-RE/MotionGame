@@ -7,10 +7,10 @@
 #define PITCH_THRESHOLD_DEG        15.0f
 
 /* 晃动阈值 */
-#define SHAKE_ACC_THRESHOLD   0.35f
+#define SHAKE_ACC_THRESHOLD   0.5f
 
 /* 动作最小间隔（ms）——防止重复触发 */
-#define MOTION_COOLDOWN_MS        300
+#define MOTION_COOLDOWN_MS        500
 
 /* ================= 动作类型定义 ================= */
 
@@ -46,5 +46,6 @@ typedef struct {
     float rel_az  = 0.0f;
     float rel_roll  = 0.0f;
     float rel_pitch = 0.0f;
+    MotionType_t motion = MOTION_NONE;  // 当前动作
 
 } IMU;

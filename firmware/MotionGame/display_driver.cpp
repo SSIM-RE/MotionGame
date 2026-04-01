@@ -918,3 +918,33 @@ void Display_DebugFont(DisplayFont_t font, char ch) {
         Serial.println();
     }
 }
+void DrawTrapezoid(float xTop, float xBottom, float yTop, float yBottom, float wTop, float wBottom, uint16_t color) {
+    // 确保从上往下画
+    if (yTop > yBottom) return;
+
+    int dy = (int)yBottom - (int)yTop;
+    if (dy <= 0) return;
+
+    for (int y = (int)yTop; y <= (int)yBottom; y++) {
+        // 计算当前行在纵向上的比例 (0.0 到 1.0)
+        float t = (float)(y - yTop) / dy;
+
+        // 根据比例线性插值计算当前的中心点 X 和 宽度 W
+        float currentX = xTop + (xBottom - xTop) * t;
+        float currentW = wTop + (wBottom - wTop) * t;
+
+        // 计算当前行的左右端点
+        int x1 = (int)(currentX - currentW / 2);
+        int x2 = (int)(currentX + currentW / 2);
+
+        // 边界裁剪 (针对 128x160 屏幕)
+        if (x1 < 0) x1 = 0;
+        if (x2 > 127) x2 = 127;
+        if (y < 0 || y > 159) continue;
+
+        // 绘制水平线
+        if (x2 >= x1) {
+            Display_DrawLine(x1, y, x2, y, color);
+        }
+    }
+}

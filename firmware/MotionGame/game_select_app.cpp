@@ -15,12 +15,11 @@ typedef struct {
     GameID_t game_id;
 } GameItem_t;
 
+// 只保留贪吃蛇、平衡球和赛车
 static const GameItem_t games[] = {
     { ICON_GAME_64,    "SNAKE",   "Classic Snake Game",   GAME_SNAKE   },
-    { ICON_THEME_64,   "TETRIS",  "Block Puzzle Game",    GAME_TETRIS  },
-    { ICON_SETTINGS_64,"PUZZLE",  "Image Puzzle Game",    GAME_PUZZLE  },
-    { ICON_ABOUT_64,   "FLAPPY",  "Tap to Fly Game",      GAME_FLAPPY  },
     { ICON_GAME_64,    "BALANCE", "Tilt Ball Game",       GAME_BALANCE },
+    { ICON_GAME_64,    "RACE",    "Pseudo 3D Racing",     GAME_RACE    },
 };
 
 #define GAME_COUNT (sizeof(games)/sizeof(games[0]))
@@ -287,30 +286,28 @@ void GameSelectApp_Init(void) {
 }
 
 SystemState_t GameSelectApp_Update(GameID_t* selected_game) {
-    MotionType_t motion = MotionService_Update();
-    
     if (!is_animating) {
-        if (motion == MOTION_TILT_LEFT && cur_index > 0) {
+        if (IMU_me.motion == MOTION_TILT_LEFT && cur_index > 0) {
             dst_index = cur_index - 1;
             anim_time = 0.0f;
             text_anim_time = 0.0f;
             is_animating = true;
             need_redraw = true;
         }
-        else if (motion == MOTION_TILT_RIGHT && cur_index < GAME_COUNT - 1) {
+        else if (IMU_me.motion == MOTION_TILT_RIGHT && cur_index < GAME_COUNT - 1) {
             dst_index = cur_index + 1;
             anim_time = 0.0f;
             text_anim_time = 0.0f;
             is_animating = true;
             need_redraw = true;
         }
-        else if (motion == MOTION_SHAKE) {
+        else if (IMU_me.motion == MOTION_SHAKE) {
             if (selected_game) {
                 *selected_game = games[cur_index].game_id;
             }
             return SYS_GAME_PLAYING;
         }
-        else if (motion == MOTION_ROLL_BACK) {
+        else if (IMU_me.motion == MOTION_ROLL_BACK) {
             return SYS_MENU;
         }
     }

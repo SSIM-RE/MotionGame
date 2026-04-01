@@ -254,29 +254,25 @@ void MenuApp_Init(void) {
     need_redraw = true;
     is_animating = false;
     damping_strength = 1.7f;
-    MotionService_Update();
-    MotionService_Update();
 }
 
 SystemState_t MenuApp_Update(void) {
-    MotionType_t motion = MotionService_Update();
-    
     if (!is_animating) {
-        if (motion == MOTION_TILT_LEFT && cur_index > 0) {
+        if (IMU_me.motion == MOTION_TILT_LEFT && cur_index > 0) {
             dst_index = cur_index - 1;
             anim_time = 0.0f;
             text_anim_time = 0.0f;
             is_animating = true;
             need_redraw = true;
         }
-        else if (motion == MOTION_TILT_RIGHT && cur_index < MENU_COUNT - 1) {
+        else if (IMU_me.motion == MOTION_TILT_RIGHT && cur_index < MENU_COUNT - 1) {
             dst_index = cur_index + 1;
             anim_time = 0.0f;
             text_anim_time = 0.0f;
             is_animating = true;
             need_redraw = true;
         }
-        else if (motion == MOTION_SHAKE) {
+        else if (IMU_me.motion == MOTION_SHAKE) {
             return menu[cur_index].result;
         }
     }

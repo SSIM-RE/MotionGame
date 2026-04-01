@@ -74,9 +74,7 @@ void ThemeApp_Init(void) {
 }
 
 SystemState_t ThemeApp_Update(void) {
-    MotionType_t motion = MotionService_Update();
-    
-    switch (motion) {
+    switch (IMU_me.motion) {
         case MOTION_TILT_LEFT:
             theme_display_index--;
             if (theme_display_index < 0) {

@@ -12,7 +12,7 @@
 #define ACC_SCALE   16384.0f   // ±2g
 #define GYRO_SCALE  131.0f     // ±250 dps
 
-#define LPF_ALPHA  0.8f        // 低通滤波系数（0.7~0.9 常用）
+#define LPF_ALPHA  0.2f        // 低通滤波系数（降低延迟）
 
 /* ================== 内部状态（私有） ================== */
 static float acc_f[3]  = {0};
