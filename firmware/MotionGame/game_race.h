@@ -15,7 +15,7 @@
 #define RACE_SEGMENT_LENGTH   200.0f   
 #define RACE_ROAD_WIDTH       2000.0f  
 
-// 动态双色天空调色板 (RGB565)
+// 动态双色天空调色板
 #define SKY_NIGHT_TOP   0x0000  
 #define SKY_NIGHT_BOT   0x000B  
 #define SKY_RISE_TOP    0x1010  
@@ -33,15 +33,26 @@
 #define RACE_COLOR_RUMBLE2    0xFFFF
 #define RACE_COLOR_LINE       0xFFFF
 
+// ★ 新增：景物类型定义
+#define OBJ_NONE         0
+#define OBJ_TREE_PIN     1
+#define OBJ_PALM         2
+#define OBJ_SIGN         3
+#define OBJ_ROCK         4
+
 typedef struct {
     float y;           
     float curve;       
+    // ★ 新增：赛道段关联的公告板物体信息
+    int8_t object_type;  
+    int8_t object_side;  // -1 for left, 1 for right
+    float object_scale;  
 } RaceSegment_t;
 
 typedef struct {
     RaceSegment_t segments[RACE_SEGMENT_COUNT]; 
     
-    // 摄像机与玩家状态
+    // 摄像机与玩家状态 (纯粹的 X/Z 轴体系)
     float cam_z;           
     float speed;           
     float accel;           
@@ -50,15 +61,16 @@ typedef struct {
     uint32_t global_idx;   
     
     // IMU 动态基准系统
-    bool waiting_to_start;  // 游戏等待摇晃开始
-    float base_roll;        // 速度基准零点
-    float base_pitch;       // 转向基准零点
-    uint32_t state_timer;   // 状态防抖计时器
+    bool waiting_to_start;  
+    float base_roll;        
+    float base_pitch;       
+    uint32_t state_timer;   
     
     // 环境与时间系统
     float time_of_day;         
     uint16_t current_sky_top;  
     uint16_t current_sky_bot;  
+    float sky_offset;      // ★ BojanSof 模型：天空的 X 轴偏移量
     
     // 地形生成器
     uint8_t gen_phase;     

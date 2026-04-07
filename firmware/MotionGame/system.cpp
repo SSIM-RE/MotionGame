@@ -4,6 +4,7 @@
 #include "game_select_app.h"
 #include "game_app.h"
 #include "theme_app.h"
+#include "wifi_controller.h"
 #include "common_colors.h"
 #include "cloud_api.h"
 #include <Arduino.h>
@@ -70,6 +71,10 @@ void System_Update(void) {
                         current_state = SYS_THEME;
                         ThemeApp_Init();
                         break;
+                    case SYS_WIFI_CONTROLLER:
+                        current_state = SYS_WIFI_CONTROLLER;
+                        WifiController_Init();
+                        break;
                     case SYS_SETTINGS:
                         current_state = SYS_SETTINGS;
                         // SettingsApp_Init();
@@ -125,6 +130,12 @@ void System_Update(void) {
                     current_state = SYS_MENU;
                 }
             }
+            break;
+        }
+        
+        case SYS_WIFI_CONTROLLER: {
+            WifiController_Update();
+            // 摇晃返回菜单（由 WifiController 内部处理）
             break;
         }
         

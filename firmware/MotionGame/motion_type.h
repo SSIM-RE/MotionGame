@@ -7,7 +7,7 @@
 #define PITCH_THRESHOLD_DEG        15.0f
 
 /* 晃动阈值 */
-#define SHAKE_ACC_THRESHOLD   0.5f
+#define SHAKE_ACC_THRESHOLD   0.3f
 
 /* 动作最小间隔（ms）——防止重复触发 */
 #define MOTION_COOLDOWN_MS        500

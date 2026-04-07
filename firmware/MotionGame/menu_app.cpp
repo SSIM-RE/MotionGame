@@ -15,10 +15,10 @@ typedef struct {
 } MenuItem_t;
 
 static const MenuItem_t menu[] = {
-    { ICON_GAME_64,     "GAME",     SYS_GAME_SELECT },
-    { ICON_THEME_64,    "THEME",    SYS_THEME       },
-    { ICON_SETTINGS_64, "SETTINGS", SYS_SETTINGS    },
-    { ICON_ABOUT_64,    "ABOUT",    SYS_ABOUT       },
+    { ICON_GAME_64,     "GAME",      SYS_GAME_SELECT     },
+    { ICON_THEME_64,    "THEME",     SYS_THEME           },
+    { ICON_SETTINGS_64, "CONTROLLER", SYS_WIFI_CONTROLLER },  // WiFi 体感控制器
+    { ICON_ABOUT_64,    "ABOUT",     SYS_ABOUT           },
 };
 
 #define MENU_COUNT (sizeof(menu)/sizeof(menu[0]))

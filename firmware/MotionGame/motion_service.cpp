@@ -96,14 +96,14 @@ MotionType_t MotionService_Update(void)
         detected = MOTION_TILT_LEFT;
     }
     /* ---------- 前后倾斜检测（相对 roll） ---------- */
-    else if (IMU_me.rel_roll > ROLL_THRESHOLD_DEG)
-    {
-        detected = MOTION_ROLL_FRONT;
-    }
-    else if (IMU_me.rel_roll < -ROLL_THRESHOLD_DEG)
-    {
-        detected = MOTION_ROLL_BACK;
-    }
+    // else if (IMU_me.rel_roll > ROLL_THRESHOLD_DEG)
+    // {
+    //     detected = MOTION_ROLL_FRONT;
+    // }
+    // else if (IMU_me.rel_roll < -ROLL_THRESHOLD_DEG)
+    // {
+    //     detected = MOTION_ROLL_BACK;
+    // }
     /* ---------- 晃动检测（加速度模长） ---------- */
     else
     {
@@ -126,7 +126,7 @@ MotionType_t MotionService_Update(void)
         {
             last_motion = detected;
             last_motion_time = millis();
-            Serial.printf(motion_to_str(detected));
+            //Serial.printf(motion_to_str(detected));
             IMU_me.motion = detected;  // 记录当前动作
             return detected;
         }

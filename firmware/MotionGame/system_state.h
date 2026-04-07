@@ -10,7 +10,8 @@ typedef enum {
     SYS_GAME_PLAYING,      // 游戏运行状态
     SYS_THEME,             // 主题设置
     SYS_SETTINGS,         // 系统设置
-    SYS_ABOUT             // 关于页面
+    SYS_ABOUT,             // 关于页面
+    SYS_WIFI_CONTROLLER    // WiFi 体感控制器模式
 } SystemState_t;
 
 // 游戏 ID 枚举
